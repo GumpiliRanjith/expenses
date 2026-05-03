@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect
 import sqlite3
 
-app = Flask(__name__)
+application  = Flask(__name__)
 
 # Create DB
 def init_db():
@@ -21,7 +21,7 @@ def init_db():
 init_db()
 
 # Home page
-@app.route('/')
+@application.route('/')
 def index():
     conn = sqlite3.connect('expenses.db')
     c = conn.cursor()
@@ -34,7 +34,7 @@ def index():
     return render_template('index.html', expenses=expenses, total=total)
 
 # Add expense
-@app.route('/add', methods=['POST'])
+@application.route('/add', methods=['POST'])
 def add():
     amount = request.form['amount']
     category = request.form['category']
@@ -50,7 +50,7 @@ def add():
     return redirect('/')
 
 # Delete expense
-@app.route('/delete/<int:id>')
+@application.route('/delete/<int:id>')
 def delete(id):
     conn = sqlite3.connect('expenses.db')
     c = conn.cursor()
@@ -61,4 +61,4 @@ def delete(id):
     return redirect('/')
 
 if __name__ == '__main__':
-    app.run()
+    application.run()
